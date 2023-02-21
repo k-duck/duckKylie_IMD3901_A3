@@ -21,4 +21,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log(socket.id + " disconnected");
     });
+
+    //on "walk" send position data. Get walk and position data from a-frame
+    //socket.on()
 });

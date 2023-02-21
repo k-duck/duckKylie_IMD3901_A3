@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <title>The Game</title>
 </head>
 <body>
-    Hyello
+    <a-scene>
+        <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0">
+            <a-entity cursor="rayOrigin:mouse;" raycaster="far:20; interval:200; objects:.interactive"></a-entity>
+            <a-entity geometry="primitive:sphere; radius:1;;" material="color:red"></a-entity>
+            
+        </a-entity>
+
+        <a-entity class="ground"  geometry="primitive:plane; width:10; height:10;" 
+                  material="color:#988538;" position="0 0.01 0" rotation="-90 0 0" "></a-entity>
+
+
+    </a-scene>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
