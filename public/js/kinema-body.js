@@ -1,4 +1,3 @@
-// Used as a part 
 /**
  * Kinema body.
  *
