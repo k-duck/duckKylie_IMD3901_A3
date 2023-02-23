@@ -6,6 +6,6 @@ function pick3D(){
 
 function pick2D(){
     console.log("2D!!");
-    document.getElementById('player2D').style.display = "block";
+    document.getElementById('player2D').style.display = "flex";
     document.getElementById('start-ui').style.display = "none";
 }

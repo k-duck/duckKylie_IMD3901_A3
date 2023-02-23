@@ -34,41 +34,53 @@
     <div id="player2D">
         <div id="grid">
             <!-- Row 0 -->
-            <div id="f0-0"></div>
-            <div id="f0-1"></div>
-            <div id="f0-2"></div>
-            <div id="f0-3"></div>
-            <div id="f0-4"></div>
+            <div class="row">
+                <div id="f0-0"></div>
+                <div id="f0-1"></div>
+                <div id="f0-2"></div>
+                <div id="f0-3"></div>
+                <div id="f0-4"></div>
+            </div>
             <!-- Row 1 -->
-            <div id="f1-0"></div>
-            <div id="f1-1"></div>
-            <div id="f1-2"></div>
-            <div id="f1-3"></div>
-            <div id="f1-4"></div>
+            <div class="row">
+                <div id="f1-0"></div>
+                <div id="f1-1"></div>
+                <div id="f1-2"></div>
+                <div id="f1-3"></div>
+                <div id="f1-4"></div>
+            </div>
             <!-- Row 2 -->
-            <div id="f2-0"></div>
-            <div id="f2-1"></div>
-            <div id="f2-2"></div>
-            <div id="f2-3"></div>
-            <div id="f2-4"></div>
+            <div class="row">
+                <div id="f2-0"></div>
+                <div id="f2-1"></div>
+                <div id="f2-2"></div>
+                <div id="f2-3"></div>
+                <div id="f2-4"></div>
+            </div>
             <!-- Row 3 -->
-            <div id="f3-0"></div>
-            <div id="f3-1"></div>
-            <div id="f3-2"></div>
-            <div id="f3-3"></div>
-            <div id="f3-4"></div>
+            <div class="row">
+                <div id="f3-0"></div>
+                <div id="f3-1"></div>
+                <div id="f3-2"></div>
+                <div id="f3-3"></div>
+                <div id="f3-4"></div>
+            </div>
             <!-- Row 4 -->
-            <div id="f4-0"></div>
-            <div id="f4-1"></div>
-            <div id="f4-2"></div>
-            <div id="f4-3"></div>
-            <div id="f4-4"></div>
+            <div class="row">
+                <div id="f4-0"></div>
+                <div id="f4-1"></div>
+                <div id="f4-2"></div>
+                <div id="f4-3"></div>
+                <div id="f4-4"></div>
+            </div>
             <!-- Row 5 -->
-            <div id="f5-0"></div>
-            <div id="f5-1"></div>
-            <div id="f5-2"></div>
-            <div id="f5-3"></div>
-            <div id="f5-4"></div>
+            <div class="row">
+                <div id="f5-0"></div>
+                <div id="f5-1"></div>
+                <div id="f5-2"></div>
+                <div id="f5-3"></div>
+                <div id="f5-4"></div>
+            </div>
             
         </div>
     </div>
@@ -132,8 +144,11 @@
     </a-scene>
     <!-- Incoming socket emits -->
     <script>
-        socket.on('connect', (userData) => {
-            console.log("I am connected");
+        socket.on('enter-box-2D', (userData) => {
+            document.querySelector('#f' + userData).style.backgroundColor = "red";
+        })
+        socket.on('leave-box-2D', (userData) => {
+            document.querySelector('#f' + userData).style.backgroundColor = "white";
         })
     </script>
 

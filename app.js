@@ -22,7 +22,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('enterBox', (data) =>{
-        console.log("ENTERING BOX " + data);
+        socket.broadcast.emit('enter-box-2D', data);
+    })
+    socket.on('leaveBox', (data) =>{
+        socket.broadcast.emit('leave-box-2D', data);
     })
 
     //on "walk" send position data. Get walk and position data from a-frame
