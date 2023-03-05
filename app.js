@@ -1,4 +1,3 @@
-const { Socket } = require('dgram');
 const express   = require('express');
 const app       = express();
 const http      = require('http');
@@ -21,6 +20,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log(socket.id + " disconnected");
     });
+
+    socket.on('enterBox', (data) =>{
+        socket.broadcast.emit('enter-box-2D', data);
+    })
+    socket.on('leaveBox', (data) =>{
+        socket.broadcast.emit('leave-box-2D', data);
+    })
 
     //on "walk" send position data. Get walk and position data from a-frame
     //socket.on()
