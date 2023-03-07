@@ -179,16 +179,12 @@
             document.querySelector('#f' + userData).style.backgroundColor = "white";
         });
         socket.on('toggleWallRed', () => {
-            console.log("RED");
-            console.log(document.querySelector('.red'));
             document.querySelector('.red').setAttribute("visible", "false");
             document.querySelector('.red').removeAttribute("static-body");
             document.querySelector('.blue').setAttribute("visible", "true");
             document.querySelector('.blue').setAttribute("static-body");
         });
         socket.on('toggleWallBlue', () => {
-            console.log("BLUE");
-            console.log(document.querySelector('.red'));
             document.querySelector('.blue').setAttribute("visible", "false");
             document.querySelector('.blue').removeAttribute("static-body");
             document.querySelector('.red').setAttribute("visible", "true");
