@@ -23,11 +23,22 @@ io.on('connection', (socket) => {
 
     socket.on('enterBox', (data) =>{
         socket.broadcast.emit('enter-box-2D', data);
-    })
+    });
     socket.on('leaveBox', (data) =>{
         socket.broadcast.emit('leave-box-2D', data);
-    })
+    });
 
-    //on "walk" send position data. Get walk and position data from a-frame
-    //socket.on()
+    socket.on('toggleWallRed', () => {
+        socket.emit('redSuccess');
+        socket.broadcast.emit('toggleWallRed');
+    });
+
+    socket.on('toggleWallBlue', () => {
+        socket.emit('blueSuccess');
+        socket.broadcast.emit('toggleWallBlue');
+    });
+
+    socket.on('rotateWallGreen', () => {
+        socket.broadcast.emit('rotateWallGreen');
+    });
 });
