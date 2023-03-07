@@ -23,6 +23,7 @@
         });
     </script>
     <script src="/js/aabb-grid.js"></script>
+    <script src="/js/wall-controls.js"></script>
     <title>The Game</title>
     <link rel="stylesheet" href="/css/coop.css">
 </head>
@@ -81,7 +82,11 @@
                 <div id="f5-3"></div>
                 <div id="f5-4"></div>
             </div>
-            
+        </div>
+        <div class="controls">
+            <button class="toggle-red" onclick="toggleWallRed()">Red Wall Off</button>
+            <button class="toggle-blue" onclick="toggleWallBlue()">Blue Wall Off</button>
+            <button class="click-green" onclick="rotateWallGreen()">Green Wall Turn</button>
         </div>
     </div>
     <a-scene id="player3D">
@@ -94,10 +99,10 @@
         <a-entity class="ground" geometry="primitive:plane; width:60; height:60;" static-body material="color:#988538;" position="0 0.01 0" rotation="-90 0 0"></a-entity>
 
         <!-- Walls -->
-        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:blue; side: double;" position="-12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:blue; side: double;" position="0 0 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:red; side: double;" position="12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:red; side: double;" position="0 0 -30"></a-entity> <!--dyanmic-body-->
+        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="-12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
+        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 0"></a-entity> <!--dyanmic-body-->
+        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
+        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 -30"></a-entity> <!--dyanmic-body-->
                 
         <!-- Box Grid -->
         <!-- Row 0 -->
@@ -137,20 +142,60 @@
         <a-entity id="5-3" material="opacity: 0;" position="5 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-3;" leave-box="id: 5-3;"></a-entity>
         <a-entity id="5-4" material="opacity: 0;" position="10 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-4;" leave-box="id: 5-4;"></a-entity>
 
-        <!-- <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:blue; side: double;" position="0 0 -2"></a-entity> -->
-        <!-- <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:blue; side: double;" position="0 0 -2"></a-entity> dyanmic-body -->
-        <!-- <a-entity class="test" geometry="primitive:box; width:2; height:10; depth:2;" static-body  material="color:red; " position="4 0 0"></a-entity> dyanmic-body -->
+        <a-entity class="pivot" position="-2.5 0 -5" data-rotate="false">
+            <a-entity class="wall green" geometry="primitive:plane; width:5; height:10;" static-body material="color:green; side: double;" position="2.5 0 0"></a-entity>
+        </a-entity>
+        <a-entity class="wall red" position="-5 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:red; side: double;" position="5 0 0"></a-entity>
+        <a-entity class="wall blue" position="-10 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:blue; side: double;" position="5 0 0"></a-entity>
 
     </a-scene>
     <!-- Incoming socket emits -->
     <script>
         socket.on('enter-box-2D', (userData) => {
             document.querySelector('#f' + userData).style.backgroundColor = "red";
-        })
+        });
         socket.on('leave-box-2D', (userData) => {
             document.querySelector('#f' + userData).style.backgroundColor = "white";
-        })
-    </script>
+        });
+        socket.on('toggleWallRed', () => {
+            document.querySelector('.red').setAttribute("visible", "false");
+            document.querySelector('.red').removeAttribute("static-body");
+            document.querySelector('.blue').setAttribute("visible", "true");
+            document.querySelector('.blue').setAttribute("static-body");
+        });
+        socket.on('toggleWallBlue', () => {
+            document.querySelector('.blue').setAttribute("visible", "false");
+            document.querySelector('.blue').removeAttribute("static-body");
+            document.querySelector('.red').setAttribute("visible", "true");
+            document.querySelector('.red').setAttribute("static-body");
+        });
+        socket.on('redSuccess', () =>{
+            console.log("RED");
+            document.querySelector('.toggle-red').setAttribute("disabled", "true");
+            document.querySelector('.toggle-blue').removeAttribute("disabled");
+        });
+        socket.on('blueSuccess', () =>{
+            console.log("BLUE");
+            document.querySelector('.toggle-blue').setAttribute("disabled", "true");
+            document.querySelector('.toggle-red').removeAttribute("disabled");
+        });
 
+        // data-rotate:false => original position
+        // data-rotate:true => second position
+        socket.on('rotateWallGreen', () => {
+            console.log("HERE!");
+            greenWall = document.querySelector('.pivot');
+            console.log(greenWall.getAttribute("data-rotate"));
+            if (greenWall.getAttribute("data-rotate") == 'false'){
+                console.log("TURNING!");
+                greenWall.setAttribute("data-rotate", 'true');
+                greenWall.setAttribute('animation', {property:'rotation', to:'0 90 0', dur:1500, easing:'linear', enabled:true});
+            } else {
+                console.log("TURNING BACK!");
+                greenWall.setAttribute("data-rotate", 'false');
+                greenWall.setAttribute('animation', {property:'rotation', to:'0 0 0', dur:1500, easing:'linear', enabled:true});
+            }
+        });
+    </script>
 </body>
 </html>
