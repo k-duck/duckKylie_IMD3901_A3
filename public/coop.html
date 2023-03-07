@@ -85,7 +85,7 @@
         </div>
         <div class="controls">
             <button class="toggle-red" onclick="toggleWallRed()">Red Wall Off</button>
-            <button class="toggle-blue" onclick="toggleWallBlue()">Blue Wall Off</button>
+            <button class="toggle-blue" onclick="toggleWallBlue()" disabled>Blue Wall Off</button>
             <button class="click-green" onclick="rotateWallGreen()">Green Wall Turn</button>
         </div>
     </div>
@@ -146,7 +146,7 @@
             <a-entity class="wall green" geometry="primitive:plane; width:5; height:10;" static-body material="color:green; side: double;" position="2.5 0 0"></a-entity>
         </a-entity>
         <a-entity class="wall red" position="-5 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:red; side: double;" position="5 0 0"></a-entity>
-        <a-entity class="wall blue" position="-10 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:blue; side: double;" position="5 0 0"></a-entity>
+        <a-entity class="wall blue" visible="false" position="-10 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:blue; side: double;" position="5 0 0"></a-entity>
 
     </a-scene>
     <!-- Incoming socket emits -->
