@@ -1,0 +1,130 @@
+#start-ui {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+#end-screen {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    visibility: hidden;
+    z-index: 999999;
+}
+
+#player2D{
+    display: none;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#player3D{
+    display: none;
+}
+
+#grid{
+    display: flex;
+    flex-wrap: wrap;
+    height: 50vh;
+    width: 50vh;
+}
+.row{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+.row > div {
+    flex-grow: 1;
+    /* border: 1px solid black; */
+}
+/* Start */
+#f0-2 {
+    background-color: cyan;
+}
+/* End */
+#f5-2 {
+    background-color: Yellow;
+}
+/* Left Wall */
+#f0-0, #f0-1, #f0-2, #f0-3, #f0-4 {
+    border-left: 3px solid black;
+}
+/* Top Wall */
+#f0-0, #f1-0, #f2-0, #f3-0, #f4-0, #f5-0 {
+    border-top: 3px solid black;
+}
+/* Right Wall */
+#f5-0, #f5-1, #f5-2, #f5-3, #f5-4 {
+    border-right: 3px solid black;
+}
+/* Bottom Wall */
+#f0-4, #f1-4, #f2-4, #f3-4, #f4-4, #f5-4 {
+    border-bottom: 3px solid black;
+}
+
+.red-wall-left {
+    border-left: 3px solid red;
+}
+.red-wall-top {
+    border-top: 3px solid red;
+}
+.blue-wall-left {
+    border-left: none;
+}
+.blue-wall-top {
+    border-top: none;
+}
+.green-wall-left {
+    border-left: none;
+}
+.green-wall-top {
+    border-top: 3px solid rgb(18, 182, 18);
+}
+
+button, a {
+    padding: 0.75rem;
+}
+
+/* 2D Controls */
+.controls {
+    padding-top: 2rem;
+}
+.toggle-red, .exit, .comp-button {
+    background-color: rgb(255, 42, 42);
+    color: white;
+    border: none;
+}
+.toggle-red:hover, .exit:hover, .comp-button:hover {
+    background-color: rgb(181, 25, 25);
+    color: white;
+}
+.toggle-red:disabled {
+    background-color: rgb(255, 167, 167);
+    color: white;
+}
+.toggle-blue, .pick-player2D {
+    background-color: rgb(66, 82, 255);
+    color: white;
+    border: none;
+}
+.toggle-blue:hover, .pick-player2D:hover {
+    background-color: rgb(26, 39, 177);
+}
+.toggle-blue:disabled {
+    background-color: rgb(167, 173, 255);
+}
+.click-green, .pick-player3D, .coop-button {
+    background-color: rgb(52, 179, 52);
+    color: white;
+    border: none;
+}
+.click-green:hover, .pick-player3D:hover, .coop-button:hover {
+    background-color: rgb(23, 125, 23);
+}

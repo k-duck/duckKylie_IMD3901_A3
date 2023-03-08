@@ -25,4 +25,27 @@ AFRAME.registerComponent("leave-box", {
         });
     }
 });
-
+AFRAME.registerComponent("enter-box-win", {
+    schema: {
+        id: {type: 'string', default:'5-2'},
+        },
+    multiple: false,
+    init: function() {
+        const CONTEXT_AF = this;
+        CONTEXT_AF.el.addEventListener("hitstart", function(){
+            socket.emit('win');
+        });
+    }
+});
+AFRAME.registerComponent("enter-box-win-comp", {
+    schema: {
+        id: {type: 'string', default:'5-2'},
+        },
+    multiple: false,
+    init: function() {
+        const CONTEXT_AF = this;
+        CONTEXT_AF.el.addEventListener("hitstart", function(){
+            socket.emit('win-comp', Date.now());
+        });
+    }
+});
