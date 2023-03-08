@@ -39,6 +39,19 @@ io.on('connection', (socket) => {
     });
 
     socket.on('rotateWallGreen', () => {
+        socket.emit('rotateGreen');
         socket.broadcast.emit('rotateWallGreen');
+    });
+    socket.on('win', () => {
+        socket.emit('win');
+        socket.broadcast.emit('win');
+    });
+    socket.on('win-comp', (endTime) => {
+        console.log(endTime);
+        socket.emit('win-comp', endTime);
+    });
+    socket.on('win-comp-2', (totalTime) => {
+        console.log(totalTime);
+        socket.broadcast.emit('win-comp-2', totalTime);
     });
 });

@@ -25,12 +25,19 @@
     <script src="/js/aabb-grid.js"></script>
     <script src="/js/wall-controls.js"></script>
     <title>The Game</title>
+    <link rel="stylesheet" href="/css/twoD.css">
     <link rel="stylesheet" href="/css/coop.css">
 </head>
 <body>
     <div id="start-ui">
-        <button onclick="pick2D()">Player 1 (2D)</button>
-        <button onclick="pick3D()">Player 2 (3D)</button>
+        <h1>Co-op mode</h1>
+        <p>Player 1 controls the doors in the maze, and player 2 must navigate!</p>
+        <p>(One per room please!!)</p>
+        <div>
+            <button class="pick-player2D" onclick="pick2D()">Player 1 (2D)</button>
+            <button class="pick-player3D" onclick="pick3D()">Player 2 (3D)</button>
+            <a class="exit" href="/">Exit</a>
+        </div>
     </div>
     <div id="player2D">
         <div id="grid">
@@ -44,9 +51,9 @@
             </div>
             <!-- Row 1 -->
             <div class="row">
-                <div id="f1-0"></div>
-                <div id="f1-1"></div>
-                <div id="f1-2"></div>
+                <div id="f1-0" class="green-wall-left"></div>
+                <div id="f1-1" class="green-wall-top"></div>
+                <div id="f1-2" class="red-wall-top"></div>
                 <div id="f1-3"></div>
                 <div id="f1-4"></div>
             </div>
@@ -54,16 +61,16 @@
             <div class="row">
                 <div id="f2-0"></div>
                 <div id="f2-1"></div>
-                <div id="f2-2"></div>
+                <div id="f2-2" class="blue-wall-left"></div>
                 <div id="f2-3"></div>
-                <div id="f2-4"></div>
+                <div id="f2-4" class="blue-wall-top"></div>
             </div>
             <!-- Row 3 -->
             <div class="row">
                 <div id="f3-0"></div>
                 <div id="f3-1"></div>
-                <div id="f3-2"></div>
-                <div id="f3-3"></div>
+                <div id="f3-2" class="green-wall-left"></div>
+                <div id="f3-3" class="red-wall-left green-wall-top"></div>
                 <div id="f3-4"></div>
             </div>
             <!-- Row 4 -->
@@ -72,7 +79,7 @@
                 <div id="f4-1"></div>
                 <div id="f4-2"></div>
                 <div id="f4-3"></div>
-                <div id="f4-4"></div>
+                <div id="f4-4" class="red-wall-left"></div>
             </div>
             <!-- Row 5 -->
             <div class="row">
@@ -80,7 +87,7 @@
                 <div id="f5-1"></div>
                 <div id="f5-2"></div>
                 <div id="f5-3"></div>
-                <div id="f5-4"></div>
+                <div id="f5-4" class="blue-wall-top"></div>
             </div>
         </div>
         <div class="controls">
@@ -90,92 +97,127 @@
         </div>
     </div>
     <a-scene id="player3D">
-        <a-entity id="player" kinema-body="radius: 0.8" movement-controls="fly: false" position="0 0 -2" look-controls>
-            <a-entity camera position="0 1.6 0" ></a-entity>
+        <a-entity id="player" kinema-body="radius: 0.8" movement-controls="fly: false" position="0 0 -2" look-controls="pointerLockEnabled: true;">
+            <a-entity camera position="0 1.6 0"></a-entity>
             <a-entity id="head" geometry="primitive: sphere; radius: 0.01;"></a-entity>
             <a-entity cursor="rayOrigin:mouse;" raycaster="far:20; interval:200; objects:.interactive"></a-entity>
         </a-entity>
         
-        <a-entity class="ground" geometry="primitive:plane; width:60; height:60;" static-body material="color:#988538;" position="0 0.01 0" rotation="-90 0 0"></a-entity>
+        <a-entity class="ground" geometry="primitive:plane; width:60; height:60;" static-body material="color:black;" position="0 0.01 0" rotation="-90 0 0"></a-entity>
 
         <!-- Walls -->
-        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="-12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="12 0 -15" rotation="0 90 0"></a-entity> <!--dyanmic-body-->
-        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 -30"></a-entity> <!--dyanmic-body-->
-                
+        <!-- Outer Walls -->
+        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="-12.5 0 -15" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:30; height:10;" static-body  material="color:grey; side: double;" position="12.5 0 -15" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:25; height:10;" static-body  material="color:grey; side: double;" position="0 0 -30"></a-entity>
+        <!-- Inner Walls -->
+        <a-entity class="wall" geometry="primitive:plane; width:15; height:10;" static-body  material="color:grey; side: double;" position="0 0 -5"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="-7.5 0 -15" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:5; height:10;" static-body  material="color:grey; side: double;" position="-5 0 -10"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="7.5 0 -10"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="-2.5 0 -25" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:5; height:10;" static-body  material="color:grey; side: double;" position="7.5 0 -2.5" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:5; height:10;" static-body  material="color:grey; side: double;" position="-2.5 0 -12.5" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:5; height:10;" static-body  material="color:grey; side: double;" position="2.5 0 -12.5" rotation="0 90 0"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:5; height:10;" static-body  material="color:grey; side: double;" position="-10 0 -25"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="-2.5 0 -20"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="2.5 0 -25"></a-entity>
+        <a-entity class="wall" geometry="primitive:plane; width:10; height:10;" static-body  material="color:grey; side: double;" position="7.5 0 -20" rotation="0 90 0"></a-entity>
+        
         <!-- Box Grid -->
         <!-- Row 0 -->
-        <a-entity id="0-0" material="opacity: 0;" position="-10 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 0-0;" leave-box="id: 0-0;"></a-entity>
-        <a-entity id="0-1" material="opacity: 0;" position="-5 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 0-1;" leave-box="id: 0-1;"></a-entity>
-        <a-entity id="0-2" material="opacity: 0;" position="0 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 0-2;" leave-box="id: 0-2;"></a-entity>
-        <a-entity id="0-3" material="opacity: 0;" position="5 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 0-3;" leave-box="id: 0-3;"></a-entity>
-        <a-entity id="0-4" material="opacity: 0;" position="10 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 0-4;" leave-box="id: 0-4;"></a-entity>
+        <a-entity id="0-0" material="opacity: 0;" position="-10 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 0-0;" leave-box="id: 0-0;"></a-entity>
+        <a-entity id="0-1" material="opacity: 0;" position="-5 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 0-1;" leave-box="id: 0-1;"></a-entity>
+        <a-entity id="0-2" material="opacity: 0;" position="0 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 0-2;" leave-box="id: 0-2;"></a-entity>
+        <a-entity id="0-3" material="opacity: 0;" position="5 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 0-3;" leave-box="id: 0-3;"></a-entity>
+        <a-entity id="0-4" material="opacity: 0;" position="10 0 -2.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 0-4;" leave-box="id: 0-4;"></a-entity>
         <!-- Row 1 -->
-        <a-entity id="1-0" material="opacity: 0;" position="-10 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 1-0;" leave-box="id: 1-0;"></a-entity>
-        <a-entity id="1-1" material="opacity: 0;" position="-5 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 1-1;" leave-box="id: 1-1;"></a-entity>
-        <a-entity id="1-2" material="opacity: 0;" position="0 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 1-2;" leave-box="id: 1-2;"></a-entity>
-        <a-entity id="1-3" material="opacity: 0;" position="5 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 1-3;" leave-box="id: 1-3;"></a-entity>
-        <a-entity id="1-4" material="opacity: 0;" position="10 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 1-4;" leave-box="id: 1-4;"></a-entity>
+        <a-entity id="1-0" material="opacity: 0;" position="-10 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 1-0;" leave-box="id: 1-0;"></a-entity>
+        <a-entity id="1-1" material="opacity: 0;" position="-5 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 1-1;" leave-box="id: 1-1;"></a-entity>
+        <a-entity id="1-2" material="opacity: 0;" position="0 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 1-2;" leave-box="id: 1-2;"></a-entity>
+        <a-entity id="1-3" material="opacity: 0;" position="5 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 1-3;" leave-box="id: 1-3;"></a-entity>
+        <a-entity id="1-4" material="opacity: 0;" position="10 0 -7.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 1-4;" leave-box="id: 1-4;"></a-entity>
         <!-- Row 2 -->
-        <a-entity id="2-0" material="opacity: 0;" position="-10 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 2-0;" leave-box="id: 2-0;"></a-entity>
-        <a-entity id="2-1" material="opacity: 0;" position="-5 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 2-1;" leave-box="id: 2-1;"></a-entity>
-        <a-entity id="2-2" material="opacity: 0;" position="0 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 2-2;" leave-box="id: 2-2;"></a-entity>
-        <a-entity id="2-3" material="opacity: 0;" position="5 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 2-3;" leave-box="id: 2-3;"></a-entity>
-        <a-entity id="2-4" material="opacity: 0;" position="10 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 2-4;" leave-box="id: 2-4;"></a-entity>
+        <a-entity id="2-0" material="opacity: 0;" position="-10 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 2-0;" leave-box="id: 2-0;"></a-entity>
+        <a-entity id="2-1" material="opacity: 0;" position="-5 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 2-1;" leave-box="id: 2-1;"></a-entity>
+        <a-entity id="2-2" material="opacity: 0;" position="0 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 2-2;" leave-box="id: 2-2;"></a-entity>
+        <a-entity id="2-3" material="opacity: 0;" position="5 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 2-3;" leave-box="id: 2-3;"></a-entity>
+        <a-entity id="2-4" material="opacity: 0;" position="10 0 -12.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 2-4;" leave-box="id: 2-4;"></a-entity>
         <!-- Row 3 -->
-        <a-entity id="3-0" material="opacity: 0;" position="-10 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 3-0;" leave-box="id: 3-0;"></a-entity>
-        <a-entity id="3-1" material="opacity: 0;" position="-5 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 3-1;" leave-box="id: 3-1;"></a-entity>
-        <a-entity id="3-2" material="opacity: 0;" position="0 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 3-2;" leave-box="id: 3-2;"></a-entity>
-        <a-entity id="3-3" material="opacity: 0;" position="5 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 3-3;" leave-box="id: 3-3;"></a-entity>
-        <a-entity id="3-4" material="opacity: 0;" position="10 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 3-4;" leave-box="id: 3-4;"></a-entity>
+        <a-entity id="3-0" material="opacity: 0;" position="-10 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 3-0;" leave-box="id: 3-0;"></a-entity>
+        <a-entity id="3-1" material="opacity: 0;" position="-5 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 3-1;" leave-box="id: 3-1;"></a-entity>
+        <a-entity id="3-2" material="opacity: 0;" position="0 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 3-2;" leave-box="id: 3-2;"></a-entity>
+        <a-entity id="3-3" material="opacity: 0;" position="5 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 3-3;" leave-box="id: 3-3;"></a-entity>
+        <a-entity id="3-4" material="opacity: 0;" position="10 0 -17.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 3-4;" leave-box="id: 3-4;"></a-entity>
         <!-- Row 4 -->
-        <a-entity id="4-0" material="opacity: 0;" position="-10 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 4-0;" leave-box="id: 4-0;"></a-entity>
-        <a-entity id="4-1" material="opacity: 0;" position="-5 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 4-1;" leave-box="id: 4-1;"></a-entity>
-        <a-entity id="4-2" material="opacity: 0;" position="0 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 4-2;" leave-box="id: 4-2;"></a-entity>
-        <a-entity id="4-3" material="opacity: 0;" position="5 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 4-3;" leave-box="id: 4-3;"></a-entity>
-        <a-entity id="4-4" material="opacity: 0;" position="10 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 4-4;" leave-box="id: 4-4;"></a-entity>
+        <a-entity id="4-0" material="opacity: 0;" position="-10 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 4-0;" leave-box="id: 4-0;"></a-entity>
+        <a-entity id="4-1" material="opacity: 0;" position="-5 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 4-1;" leave-box="id: 4-1;"></a-entity>
+        <a-entity id="4-2" material="opacity: 0;" position="0 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 4-2;" leave-box="id: 4-2;"></a-entity>
+        <a-entity id="4-3" material="opacity: 0;" position="5 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 4-3;" leave-box="id: 4-3;"></a-entity>
+        <a-entity id="4-4" material="opacity: 0;" position="10 0 -22.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 4-4;" leave-box="id: 4-4;"></a-entity>
         <!-- Row 4 -->
-        <a-entity id="5-0" material="opacity: 0;" position="-10 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-0;" leave-box="id: 5-0;"></a-entity>
-        <a-entity id="5-1" material="opacity: 0;" position="-5 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-1;" leave-box="id: 5-1;"></a-entity>
-        <a-entity id="5-2" material="opacity: 0;" position="0 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-2;" leave-box="id: 5-2;"></a-entity>
-        <a-entity id="5-3" material="opacity: 0;" position="5 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-3;" leave-box="id: 5-3;"></a-entity>
-        <a-entity id="5-4" material="opacity: 0;" position="10 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head; debug: true;" enter-box="id: 5-4;" leave-box="id: 5-4;"></a-entity>
+        <a-entity id="5-0" material="opacity: 0;" position="-10 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 5-0;" leave-box="id: 5-0;"></a-entity>
+        <a-entity id="5-1" material="opacity: 0;" position="-5 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 5-1;" leave-box="id: 5-1;"></a-entity>
+        <a-entity id="5-2" enter-box-win material="opacity: 0;" position="0 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 5-2;" leave-box="id: 5-2;"></a-entity>
+        <a-entity id="5-3" material="opacity: 0;" position="5 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 5-3;" leave-box="id: 5-3;"></a-entity>
+        <a-entity id="5-4" material="opacity: 0;" position="10 0 -27.5" geometry="primitive:box; height: 10; width: 5; depth: 5;" aabb-collider="objects: #head;" enter-box="id: 5-4;" leave-box="id: 5-4;"></a-entity>
 
-        <a-entity class="pivot" position="-2.5 0 -5" rotation="0 90 0" data-rotate="false">
-            <a-entity class="wall green" geometry="primitive:plane; width:5; height:10;" static-body material="color:green; side: double;" position="2.5 0 0"></a-entity>
+        <a-entity class="pivot" position="-7.5 0 -5" rotation="0 90 0" data-rotate="false">
+            <a-entity class="wall green" geometry="primitive:plane; width:5; height:10;" static-body material="color:grey; side: double;" position="2.5 0 0"></a-entity>
         </a-entity>
-        <a-entity class="wall red" position="-5 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:red; side: double;" position="5 0 0"></a-entity>
-        <a-entity class="wall blue" visible="false" position="-10 0 -5" geometry="primitive:plane; width:5; height:10;" static-body material="color:blue; side: double;" position="5 0 0"></a-entity>
-
+        <a-entity class="pivot" position="2.5 0 -15" rotation="0 90 0" data-rotate="false">
+            <a-entity class="wall green" geometry="primitive:plane; width:5; height:10;" static-body material="color:grey; side: double;" position="2.5 0 0"></a-entity>
+        </a-entity>
+        <a-entity class="wall red" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;" position="5 0 -15"></a-entity>
+        <a-entity class="wall red" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;" position="10 0 -20"></a-entity>
+        <a-entity class="wall red" rotation="0 90 0" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;" position="-2.5 0 -7.5"></a-entity>
+        <a-entity class="wall blue" visible="false" position="0 0 -10" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;"></a-entity>
+        <a-entity class="wall blue" visible="false" position="7.5 0 -12.5" rotation="0 90 0" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;"></a-entity>
+        <a-entity class="wall blue" visible="false" position="7.5 0 -27.5" rotation="0 90 0" geometry="primitive:plane; width:5; height:10;" material="color:grey; side: double;"></a-entity>
+    
+        <a-entity geometry="primitive: sphere; radius: 1;" position="0 2.5 -27.5" material="color: yellow;"></a-entity>
+    
     </a-scene>
+    <div id="end-screen">
+        <h1>You Win!</h1>
+        <a class="exit" href="/">Exit</a>
+        <p>If you can't see your mouse, press Esc</p>
+    </div>
     <!-- Incoming socket emits -->
     <script>
+        document.querySelectorAll('.red').forEach(el => el.setAttribute('body', {type: "static"}));
         socket.on('enter-box-2D', (userData) => {
-            document.querySelector('#f' + userData).style.backgroundColor = "red";
+            document.querySelector('#f' + userData).style.backgroundColor = "cyan";
         });
         socket.on('leave-box-2D', (userData) => {
             document.querySelector('#f' + userData).style.backgroundColor = "white";
         });
         socket.on('toggleWallRed', () => {
-            document.querySelector('.red').setAttribute("visible", "false");
-            document.querySelector('.red').removeAttribute("static-body");
-            document.querySelector('.blue').setAttribute("visible", "true");
-            document.querySelector('.blue').setAttribute("static-body");
+            document.querySelectorAll('.red').forEach(el => el.setAttribute("visible", "false"));
+            document.querySelectorAll('.red').forEach(el => el.removeAttribute("body"));
+            document.querySelectorAll('.blue').forEach(el => el.setAttribute("visible", "true"));
+            document.querySelectorAll('.blue').forEach(el => el.setAttribute('body', {type: "static"}));
         });
         socket.on('toggleWallBlue', () => {
-            document.querySelector('.blue').setAttribute("visible", "false");
-            document.querySelector('.blue').removeAttribute("static-body");
-            document.querySelector('.red').setAttribute("visible", "true");
-            document.querySelector('.red').setAttribute("static-body");
+            document.querySelectorAll('.blue').forEach(el => el.setAttribute("visible", "false"));
+            document.querySelectorAll('.blue').forEach(el => el.removeAttribute("body"));
+            document.querySelectorAll('.red').forEach(el => el.setAttribute("visible", "true"));
+            document.querySelectorAll('.red').forEach(el => el.setAttribute('body', {type: "static"}));
         });
         socket.on('redSuccess', () =>{
-            console.log("RED");
+            document.querySelectorAll('.red-wall-left').forEach(el => el.style.borderLeft = "none");
+            document.querySelectorAll('.red-wall-top').forEach(el => el.style.borderTop = "none");
+            document.querySelectorAll('.blue-wall-left').forEach(el => el.style.borderLeft = "3px solid blue");
+            document.querySelectorAll('.blue-wall-top').forEach(el => el.style.borderTop = "3px solid blue");
             document.querySelector('.toggle-red').setAttribute("disabled", "true");
             document.querySelector('.toggle-blue').removeAttribute("disabled");
         });
         socket.on('blueSuccess', () =>{
-            console.log("BLUE");
+            document.querySelectorAll('.blue-wall-left').forEach(el => el.style.borderLeft = "none");
+            document.querySelectorAll('.blue-wall-top').forEach(el => el.style.borderTop = "none");
+            document.querySelectorAll('.red-wall-left').forEach(el => el.style.borderLeft = "3px solid red");
+            document.querySelectorAll('.red-wall-top').forEach(el => el.style.borderTop = "3px solid red");
             document.querySelector('.toggle-blue').setAttribute("disabled", "true");
             document.querySelector('.toggle-red').removeAttribute("disabled");
         });
@@ -183,18 +225,38 @@
         // data-rotate:false => original position
         // data-rotate:true => second position
         socket.on('rotateWallGreen', () => {
-            console.log("HERE!");
-            greenWall = document.querySelector('.pivot');
-            console.log(greenWall.getAttribute("data-rotate"));
-            if (greenWall.getAttribute("data-rotate") == 'false'){
-                console.log("TURNING!");
-                greenWall.setAttribute("data-rotate", 'true');
-                greenWall.setAttribute('animation', {property:'rotation', to:'0 180 0', dur:1500, easing:'linear', enabled:true});
+            greenWall = document.querySelectorAll('.pivot');
+            greenWall.forEach(function (el, idx) {
+                console.log(el);
+                if (el.getAttribute("data-rotate") == 'false'){
+                    console.log("FALSE");
+                    el.setAttribute("data-rotate", 'true');
+                    el.setAttribute('animation', {property:'rotation', to:'0 180 0', dur:500, easing:'linear', enabled:true});
+                } else {
+                    console.log("TRUE");
+                    el.setAttribute("data-rotate", 'false');
+                    el.setAttribute('animation', {property:'rotation', to:'0 90 0', dur:500, easing:'linear', enabled:true});
+                }
+            }) 
+        });
+        socket.on('rotateGreen', () => {
+            greenWall = document.querySelector('.green-wall-top');
+            if(greenWall.style.borderTop == "none"){
+                console.log("HEWWO");
+                document.querySelectorAll('.green-wall-top').forEach(el => el.style.borderTop = "3px solid rgb(18, 182, 18)");
+                document.querySelectorAll('.green-wall-left').forEach(el => el.style.borderLeft = "none");
             } else {
-                console.log("TURNING BACK!");
-                greenWall.setAttribute("data-rotate", 'false');
-                greenWall.setAttribute('animation', {property:'rotation', to:'0 90 0', dur:1500, easing:'linear', enabled:true});
+                console.log("OH NO");
+                document.querySelectorAll('.green-wall-left').forEach(el => el.style.borderLeft = "3px solid rgb(18, 182, 18)");
+                document.querySelectorAll('.green-wall-top').forEach(el => el.style.borderTop = "none");
             }
+            
+        });
+
+        socket.on('win', () => {
+            document.querySelector("#end-screen").style.visibility = "visible";
+            document.querySelector("#player2D").style.display = "none";
+            document.querySelector("#player3D").style.display = "none";
         });
     </script>
 </body>

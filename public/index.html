@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xml:lang="en" xmlns= "http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <meta http-equiv="Content-Language" content="en">
+    <!-- Google translate kept thinking my buttons were Italian -->
 <head>
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <title>The Game</title>
+    <link rel="stylesheet" href="/css/twoD.css">
 </head>
 <body>
-    <a-scene>
-        <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0">
-            <a-entity cursor="rayOrigin:mouse;" raycaster="far:20; interval:200; objects:.interactive"></a-entity>
-            <a-entity geometry="primitive:sphere; radius:1;;" material="color:red"></a-entity>
-            
-        </a-entity>
-
-        <a-entity class="ground"  geometry="primitive:plane; width:10; height:10;" 
-                  material="color:#988538;" position="0 0.01 0" rotation="-90 0 0" "></a-entity>
-
-
-    </a-scene>
+    <div id="start-ui">
+        <h1>Maze Game</h1>
+        <div>
+            <a class="coop-button" href="/coop.html">Co-op</a>
+            <a class="comp-button" href="/comp.html">Competitive</a>
+        </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
